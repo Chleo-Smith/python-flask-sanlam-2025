@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: grid;
+        place-content: center;
+        min-height: 100vh;
+      }
+      .profile-image {
+        height: 200px;
+        aspect-ratio: 1 / 1;
+
+        border-radius: 100%;
+        object-fit: cover;
+        text-align: center;
+      }
+      .greeting {
+        font-family: sans-serif;
+        margin-bottom: 60px;
+        text-align: center;
+      }
+      .greeting-name {
+        font-weight: 800;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    {% for dict in dict_list %} <img class = "profile-image" src=
+    {{dict["image"]}}>
+    <p class="greeting">
+      Hello, <span class="greeting-name">{{dict["name"]}}</span>
+    </p>
+    {% endfor %}
+  </body>
+</html>
