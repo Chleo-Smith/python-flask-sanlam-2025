@@ -1,4 +1,6 @@
-from flask import Flask
+from pprint import pprint
+
+from flask import Flask, json, request
 
 app = Flask(__name__)
 
@@ -100,6 +102,8 @@ def hello_world():
 
 
 # /movies --> give all data
+HTTP_NOT_FOUND = 404
+HTTP_SUCCESS = 200
 
 
 @app.get("/movies")
@@ -110,9 +114,46 @@ def get_movies():
 
 @app.get("/movies/<id>")
 def get_movie_by_id(id):
-    # flask auto converts json
-    return movies[1]
+    for movie in movies:
+        if movie["id"] == id:
+            return movie
 
+    return {"message": "Movie not found"}, HTTP_NOT_FOUND
+
+
+@app.delete("/movies/<id>")
+def delete_movie_by_id(id):
+    for movie in movies:
+        if movie["id"] == id:
+            movies.remove(movie)
+            return {"message": f"Movie {id} deleted", "data": movie}, HTTP_SUCCESS
+
+    return {"message": "Movie not found"}, HTTP_NOT_FOUND
+
+
+@app.post("/movies")
+def create_movie():
+    new_movie = request.get_json()
+
+    ids = [int(movie["id"]) for movie in movies]
+    max_id = max(ids)
+    new_movie["id"] = str(max_id + 1)
+
+    movies.append(new_movie)
+
+    return {"message": "movie created successfuly", "data": movies}
+
+
+@app.put("/movies/<id>")
+def update_movie_by_id(id):
+    update_info = request.get_json()
+    movie = get_movie_by_id(id)
+
+    movie.update(update_info)
+    return {"message": f"Movie {id} updated", "data": movie}, HTTP_SUCCESS
+
+
+# ctrl + ~ play  around with existing one
 
 if __name__ == "__main__":
     app.run(debug=True)
