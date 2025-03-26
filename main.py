@@ -138,6 +138,13 @@ def movies_list_page():
     return render_template("movies-list.html", movies=movies)
 
 
+# <id> -> 99
+@app.get("/movie-list/<id>")
+def movie_details_page(id):
+    print(id)
+    return render_template("movie-details.html", movies=movies)
+
+
 from routes.movies_bp import movies_bp
 
 # ctrl + ~ play  around with existing one
