@@ -10,9 +10,12 @@ from routes.movies_list_bp import movies_list_bp
 
 def create_app():
     app = Flask(__name__)
+
+    # BD STUFF
     app.config.from_object(Config)
     db.init_app(app)
 
+    # DB STUFF
     with app.app_context():
         try:
             result = db.session.execute(text("SELECT 1")).fetchall()
