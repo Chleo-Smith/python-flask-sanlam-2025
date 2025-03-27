@@ -1,20 +1,6 @@
-from flask import Flask, render_template
+from pprint import pprint
 
-app = Flask(__name__)
-
-
-@app.get("/")
-def hello_world():
-    return "<h1>Super, Cool 😁</h1>"
-
-
-name = "Jamie"
-hobbies = []
-images = [
-    "https://i.pinimg.com/564x/d5/93/7f/d5937f85539066d216905ad3d67eee2b.jpg",
-    "https://qudahalloween.com/cdn/shop/articles/Draculaura-Cosplay-featured_600x.jpg?v=1719395794",
-    "https://i.pinimg.com/236x/0c/25/b3/0c25b3f7eeddd2d95c3ede774961e650.jpg",
-]
+from flask import Blueprint, Flask, json, render_template, request
 
 movies = [
     {
@@ -106,43 +92,25 @@ movies = [
         "id": "109",
     },
 ]
-dict_list = [
-    {
-        "name": "Cleo 🐍💛",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1fpi9gj1LTsGpasZaH4-zMVUIeJTTa7tBqg&s",
-    },
-    {
-        "name": "Draculaura 💗🦇",
-        "image": "https://qudahalloween.com/cdn/shop/articles/Draculaura-Cosplay-featured_600x.jpg?v=1719395794",
-    },
-    {
-        "name": "Frankie ⚡🔩",
-        "image": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ad9e988f-fc92-4b5e-83ca-bcffbb33f48e/ddus7aw-a876f565-c1e8-44d3-b1db-6cae6713392f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FkOWU5ODhmLWZjOTItNGI1ZS04M2NhLWJjZmZiYjMzZjQ4ZVwvZGR1czdhdy1hODc2ZjU2NS1jMWU4LTQ0ZDMtYjFkYi02Y2FlNjcxMzM5MmYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.K8HdZZznedNY8zU4iWytUBYrmxSzrg0QI4i3gy0RWR4",
-    },
-]
+
+# /movies --> give all data
+HTTP_NOT_FOUND = 404
+HTTP_SUCCESS = 200
+
+movies_list_bp = Blueprint("movies_list_bp", __name__)
 
 
-# flask uses Jinja2 and replaces {{}} with the python value
-@app.get("/about")
-def about_page():
-    return render_template("about.html", name=name, hobbies=hobbies)
+# flask : blueprint
+# 1. Organize
+# 2. app needs to be in main.py
+@movies_list_bp.get("/")
+def movies_list_page():
+    return render_template("movies-list.html", movies=movies)
 
 
-@app.get("/profile")
-def profile_page():
-    return render_template("profile.html", dict_list=dict_list)
-
-
-# <id> -> 99
-from routes.movies_bp import movies_bp
-
-# ctrl + ~ play  around with existing one
-app.register_blueprint(movies_bp, url_prefix="/movies")
-
-from routes.movies_list_bp import movies_list_bp
-
-# ctrl + ~ play  around with existing one
-app.register_blueprint(movies_list_bp, url_prefix="/movies-list")
-
-if __name__ == "__main__":
-    app.run(debug=True)
+@movies_list_bp.get("/<id>")
+def movie_details_page(id):
+    for movie in movies:
+        if movie["id"] == id:
+            return render_template("movie-details.html", movie=movie)
+    return render_template("not-found.html"), 404
