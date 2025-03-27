@@ -139,10 +139,12 @@ def movies_list_page():
 
 
 # <id> -> 99
-@app.get("/movie-list/<id>")
+@app.get("/movies-list/<id>")
 def movie_details_page(id):
-    print(id)
-    return render_template("movie-details.html", movies=movies)
+    for movie in movies:
+        if movie["id"] == id:
+            return render_template("movie-details.html", movie=movie)
+    return render_template("not-found.html"), 404
 
 
 from routes.movies_bp import movies_bp
