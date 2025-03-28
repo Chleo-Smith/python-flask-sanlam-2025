@@ -2,10 +2,10 @@ from pprint import pprint
 
 from flask import Blueprint, Flask, json, request
 
+from constants import STATUS_CODE
 from extensions import db
 from models.movie import Movie
 
-STATUS_CODE = {"CREATED": 201, "NOT FOUND": 404, "SERVER ERROR": 500, "SUCCESS": 200}
 # /movies --> give all data
 # HTTP_NOT_FOUND = 404
 # HTTP_SUCCESS = 200
