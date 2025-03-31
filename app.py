@@ -33,7 +33,7 @@ def create_app():
     app.register_blueprint(main_bp)
     app.register_blueprint(movies_bp, url_prefix="/movies")  # Refactor - Mailability ⬆️
     app.register_blueprint(movies_list_bp, url_prefix="/movie-list")
-    app.register_blueprint(auth_bp, url_prefix="/auth")
+    app.register_blueprint(auth_bp)
 
     return app
 
