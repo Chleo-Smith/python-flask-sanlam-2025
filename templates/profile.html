@@ -22,10 +22,18 @@
     font-weight: 800;
     font-style: italic;
   }
+
+  .fa-circle-check {
+    color: rgb(24, 92, 151);
+  }
 </style>
 {% endblock %} {% block content %} {% for user in users %} <img class =
 "profile-image" src= {{user["image"]}}>
 <p class="greeting">
   Hello, <span class="greeting-name">{{user["name"]}}</span>
+
+  {% if user.isVerified%}
+  <span class="check"><i class="fa-solid fa-circle-check"></i></span>
+  {% endif %}
 </p>
 {% endfor %} {% endblock %}
