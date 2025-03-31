@@ -95,10 +95,28 @@ def create_movie():
     # return {"message": "movie created successfuly", "data": movies}
 
 
+# update info
+# filter by where condition
+# update present in filter by
+# /movies/100 - <id> -> Variable
 @movies_bp.put("/<id>")
-def update_movie_by_id(id):
-    update_info = request.get_json()
-    movie = get_movie_by_id(id)
+def update_movie_by_id(id):  # id - Which movie
+    body = request.get_json()  # body - What data to update
 
-    movie.update(update_info)
-    return {"message": f"Movie {id} updated", "data": movie}, STATUS_CODE["SUCCESS"]
+    try:
+        updated = Movie.query.filter_by(id=id).update(body)
+        print(updated)  # 0 or 1 # No. of rows updated
+        if not updated:
+            return {"message": "Movie not found"}, STATUS_CODE["NOT_FOUND"]
+
+        db.session.commit()
+
+        updated_movie = Movie.query.get(id)  # Read
+        return {
+            "message": "Movie updated successfully",
+            "data": updated_movie.to_dict(),
+        }
+
+    except Exception as e:
+        db.session.rollback()  # Undo: Restore the data | After commit cannot undo
+        return {"message": str(e)}, STATUS_CODE["SERVER_ERROR"]

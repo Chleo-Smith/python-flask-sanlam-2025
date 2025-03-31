@@ -22,3 +22,16 @@ VALUES
 ('106', 'Baahubali', 'https://flxt.tmsimg.com/assets/p11546593_p_v10_af.jpg', 8, 'In the kingdom of Mahishmati, Shivudu falls in love with a young warrior woman. While trying to woo her, he learns about the conflict-ridden past of his family and his true legacy.', 'https://www.youtube.com/embed/sOEg_YZQsTI'),
 ('107', 'Ratatouille', 'https://resizing.flixster.com/gL_JpWcD7sNHNYSwI1ff069Yyug=/ems.ZW1zLXByZC1hc3NldHMvbW92aWVzLzc4ZmJhZjZiLTEzNWMtNDIwOC1hYzU1LTgwZjE3ZjQzNTdiNy5qcGc=', 8, 'Remy, a rat, aspires to become a renowned French chef. However, he fails to realise that people despise rodents and will never enjoy a meal cooked by him.', 'https://www.youtube.com/embed/NgsQ8mVkN8w'),
 ('108', 'PS2', 'https://m.media-amazon.com/images/M/MV5BYjFjMTQzY2EtZjQ5MC00NGUyLWJiYWMtZDI3MTQ1MGU4OGY2XkEyXkFqcGdeQXVyNDExMjcyMzA@._V1_.jpg', 8, 'Ponniyin Selvan: I is an upcoming Indian Tamil-language epic period action film directed by Mani Ratnam, who co-wrote it with Elango Kumaravel and B. Jeyamohan', 'https://www.youtube.com/embed/KsH2LA8pCjo');
+
+CREATE TABLE users (
+    id NVARCHAR(50) PRIMARY KEY,
+    username NVARCHAR(100),
+    password NVARCHAR(100),
+);
+
+INSERT INTO users (id, username, password)
+VALUES
+('101', "chleo", 'chleo'),
+('102', "diyali", 'diyali'),
+('103', "anita", 'anita'),
+('104', "jamie", 'jamie'),
